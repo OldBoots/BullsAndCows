@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -33,6 +34,26 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->butt_back, SIGNAL(clicked()), this, SLOT(slot_butt_back()));
     connect(ui->butt_back, SIGNAL(pressed()), this, SLOT(slot_start_time()));
     connect(ui->butt_back, SIGNAL(released()), this, SLOT(slot_stop_time()));
+    connect(ui->action_3, SIGNAL(triggered()), this, SLOT(slot_set_cn()));
+}
+
+void MainWindow::slot_set_cn(){
+    bool bOk;
+    QIntValidator ttt(2, 8);
+    int num = QInputDialog::getInt(this, "", "Number:", 2, 2, 8, 1, &bOk);
+    if(bOk){
+        num_count = num;
+        ui->lcd->setDigitCount(num_count);
+        str_number = "";
+        ui->lcd->display(str_number);
+        int rt = 1, rtt = 9;
+        for(int i = 1; i < num_count; i++){
+            rt *= 10;
+            rtt = rtt * 10 + 9;
+        }
+        str_rand_num = QString::number(Rand(rt, rtt));
+    }
+    qDebug() << str_rand_num;
 }
 
 void MainWindow::slot_end_time(){
@@ -107,9 +128,12 @@ void MainWindow::slot_butt_enter(){
     QString str_answer = str_number + "\t\t";
     QVector <int> vec_num;
     init_mass(vec_num);
-    for(int i = 0; i < num_count; i++){
+    for(int i = 0, count = 0; i < num_count; i++){
         if(str_number[i] == str_rand_num[i]){
-            if(vec_num[str_number[i].digitValue()] != 0){ vec_num[str_number[i].digitValue()]--; str_answer += "1";}
+            if(vec_num[str_number[i].digitValue()] != 0){ vec_num[str_number[i].digitValue()]--; str_answer += "1"; count++; }
+        }
+        if(count == num_count){
+            QMessageBox::warning(this, "Attention","Unlocked");
         }
     }
     for(int i = 0; i < num_count; i++){

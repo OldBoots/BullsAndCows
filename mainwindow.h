@@ -6,6 +6,10 @@
 #include <QString>
 #include <QStringListModel>
 #include <QTimer>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QIntValidator>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,6 +41,7 @@ private slots:
     void slot_end_time();
     void slot_start_time();
     void slot_stop_time();
+    void slot_set_cn();
 private:
     Ui::MainWindow *ui;
     QStringListModel *model;
