@@ -134,7 +134,9 @@ void MainWindow::slot_butt_enter(){
             if(vec_num[str_number[i].digitValue()] != 0){ vec_num[str_number[i].digitValue()]--; str_answer += "1"; count++; }
         }
         if(count == num_count){
-            QMessageBox::warning(this, "Attention","Unlocked");
+            if(QMessageBox::warning(this, "Attention","Unlocked")){
+                exit(0);
+            }
         }
     }
     for(int i = 0; i < num_count; i++){
@@ -144,6 +146,8 @@ void MainWindow::slot_butt_enter(){
     }
     list_attempts.push_front(str_answer);
     model->setStringList(list_attempts);
+    str_number = "";
+    ui->lcd->display(str_number);
 }
 
 void MainWindow::slot_butt_back(){
