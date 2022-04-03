@@ -117,7 +117,7 @@ void MainWindow::slot_butt_enter(){
             if(vec_num[str_number[i].digitValue()] != 0){ vec_num[str_number[i].digitValue()]--; str_answer += "0";}
         }
     }
-    list_attempts << str_answer;
+    list_attempts.push_front(str_answer);
     model->setStringList(list_attempts);
 }
 
