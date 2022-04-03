@@ -57,6 +57,7 @@ void MainWindow::slot_set_cn(){
 }
 
 void MainWindow::slot_end_time(){
+    timer->stop();
     str_number = "";
     ui->lcd->display(str_number);
 }
